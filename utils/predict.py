@@ -6,6 +6,7 @@ import pickle as pkl
 import warnings
 warnings.filterwarnings("ignore")
 
+department_dict = read_file("data/departments.json")
 diseases_list = read_file("data/diseases_list.json")
 symptom_dict = read_file("data/symptom_dict.json")
 # print(diseases_list)
@@ -36,7 +37,11 @@ def get_info(disease):
     med = medication[medication['Disease'] == disease]['Medication']
     med = ast.literal_eval(med.values.tolist()[0])
 
+    department = department_dict[disease]
+
     return {
+        'disease' : disease,
+        "department" : department,
         "description": descr,
         "precaution": pre,
         "medication": med,
@@ -54,6 +59,5 @@ def get_predicted_value(patient_symptoms):
     print("\n", disease)
 
     result = get_info(disease)
-    result['disease'] = disease
 
     return result
